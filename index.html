@@ -25,7 +25,7 @@
    <p>
     Criei essa máquina do tempo musical para que quando você não souber qual música ouvir, coloque aqui uma data entre <strong>11/06/2025</strong> e <strong>12/06/2026</strong> e ouça a música que escolhi nesse dia para você. <br><br>
     Existem algumas datas especiais como o dia do seu aniversário, do meu aniversário, o dia do show do System of a Down, natal, ano novo hahaha. <br><br>
-    Dessa forma, vou estar sempre pertinho de você nas datas comemorativas. Espero que no próximo dia dos namorados (final da playlist) eu possa estar com você! Se não, aproveita do mesmo jeito haha! <strong>Te amo, Bia.</strong>
+    Dessa forma, vou estar sempre pertinho de você nas datas comemorativas. Espero que no próximo dia dos namorados (final da playlist) eu possa estar com você, como seu namorado! Se não, aproveita do mesmo jeito haha! <strong>Te amo, Bia.</strong>
   </p>
 
   <script>
@@ -410,12 +410,16 @@
         alert("Por favor, selecione uma data.");
         return;
       }
+      
+      const dataSelecionada = new Date(dataInput);
+      
+      if (dataSelecionada < dataInicio) {
+        mensagem.textContent = "Essa parte a gente já viveu.";
+        return;
+      }
 
-      const dataSelecionada = new Date(dataInput + 'T00:00:00'); // corrige fuso horário mobile
-      const dataFim = new Date("2026-06-12");
-
-      if (dataSelecionada < dataInicio || dataSelecionada > dataFim) {
-        alert("Data fora do intervalo permitido.");
+      if (dataSelecionada > dataFim) {
+        mensagem.textContent = "Ainda vamos viver essa parte.";
         return;
       }
 
