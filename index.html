@@ -4,17 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vídeo do Dia</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      text-align: center;
-      padding: 2em;
-    }
-    input, button {
-      font-size: 1.2em;
-      margin: 1em 0;
-    }
-  </style>
+ <style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background: url('fundo.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    text-align: center;
+  }
+
+  /* Adicione fundo semi-transparente no conteúdo para facilitar a leitura */
+  body > * {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  input, button {
+    padding: 10px;
+    margin-top: 15px;
+    font-size: 16px;
+  }
+
+  #mensagem {
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+</style>
 </head>
 <body>
   <h1>Escolha uma data</h1>
