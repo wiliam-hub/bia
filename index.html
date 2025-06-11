@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vídeo do Dia</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 2em;
+    }
+    input, button {
+      font-size: 1.2em;
+      margin: 1em 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Escolha uma data</h1>
+  <input type="date" id="dataInput" min="2025-06-11" max="2026-06-12" />
+  <br />
+  <button onclick="verVideo()">Ver vídeo</button>
+
+  <script>
+    // Lista de 368 vídeos (exemplo com poucos links)
+    const videos = [
+      "https://www.youtube.com/watch?v=KtlgYxa6BMU", //11/06/2025
+      "https://www.youtube.com/watch?v=jGUASAxXwg4", //12/06/2025
+      "https://www.youtube.com/watch?v=4jZBwyG7HPs", //13/06/2025
+      "https://www.youtube.com/watch?v=BzSzwqb-OEE", //14/06/2025
+      "https://www.youtube.com/watch?v=0NhWNOUXqNU", //15/06/2025
+      "https://www.youtube.com/watch?v=oody39zY7LQ", //16/06/2025
+      "https://www.youtube.com/watch?v=SLrqm8F7TgM", //17/06/2025
+      "https://www.youtube.com/watch?v=SqDjQPoJxiw", //18/06/2025
+      "https://www.youtube.com/watch?v=yKNxeF4KMsY", //19/06/2025
+      "https://www.youtube.com/watch?v=6ThQkrXHdh4", //20/06/2025
+      "https://www.youtube.com/watch?v=FpzGtukbaGY", //21/06/2025
+      "https://www.youtube.com/watch?v=-J7J_IWUhls", //22/06/2025
+      "https://www.youtube.com/watch?v=8AHCfZTRGiI", //23/06/2025
+      "https://www.youtube.com/watch?v=u9Dg-g7t2l4", //24/06/2025
+      "https://www.youtube.com/watch?v=mfRj60-MpRU", //25/06/2025
+      "https://www.youtube.com/watch?v=9P16xvwMQ5A", //26/06/2025
+      "https://www.youtube.com/watch?v=8SbUC-UaAxE", //27/06/2025
+      "https://www.youtube.com/watch?v=w46bWxS9IjY", //28/06/2025
+      "https://www.youtube.com/watch?v=9EHAo6rEuas", //29/06/2025
+      "https://www.youtube.com/watch?v=z2hZ9CTLICs", //30/06/2025
+      "https://www.youtube.com/watch?v=36JwtIPVAJQ", //01/07/2025
+      "https://www.youtube.com/watch?v=yZ4L2WFveTY", //02/07/2025
+      "https://www.youtube.com/watch?v=vP3jogMl27E", //03/07/2025
+      "https://www.youtube.com/watch?v=LvetJ9U_tVY", //04/07/2025
+      "https://www.youtube.com/watch?v=5r6A2NexF88", //05/07/2025
+      "https://www.youtube.com/watch?v=CJ54eImz88w", //06/07/2025
+      "https://www.youtube.com/watch?v=tcckFDk9RQo", //07/07/2025
+      "https://www.youtube.com/watch?v=XXYlFuWEuKI", //08/07/2025
+      "https://www.youtube.com/watch?v=yGTmouM4vEg", //09/07/2025
+      "https://www.youtube.com/watch?v=MwpMEbgC7DA", //10/07/2025   //30
+      "https://www.youtube.com/watch?v=YHRvDo8rUoQ", //11/07/2025
+      "https://www.youtube.com/watch?v=6EEW-9NDM5k", //12/07/2025
+      "https://www.youtube.com/watch?v=6NXnxTNIWkc", //13/07/2025
+      "https://www.youtube.com/watch?v=aDdOnl0bHO4", //14/07/2025
+      "https://www.youtube.com/watch?v=OxR6vqkvcSg", //15/07/2025
+      "https://www.youtube.com/watch?v=vPTxVQDk11U", //16/07/2025
+      "https://www.youtube.com/watch?v=tMWpm_GOLaA", //17/07/2025
+      "https://www.youtube.com/watch?v=WkLpoUiasZ8", //18/07/2025
+      "https://www.youtube.com/watch?v=SWm1uvCRfvA", //19/07/2025
+      "https://www.youtube.com/watch?v=AfNJFazLt4g", //20/07/2025
+      "https://www.youtube.com/watch?v=A7ry4cx6HfY", //21/07/2025
+      "https://www.youtube.com/watch?v=2KLDT4IpDS0", //22/07/2025
+      "https://www.youtube.com/watch?v=8XF7YS-YD1I", //23/07/2025
+      "https://www.youtube.com/watch?v=7Z4zCIn7zyY", //24/07/2025
+      "https://www.youtube.com/watch?v=azPN51IZyUo", //25/07/2025
+      "https://www.youtube.com/watch?v=Cm__LTpuuRc", //26/07/2025
+      "https://www.youtube.com/watch?v=s1tAYmMjLdY", //27/07/2025
+      "https://www.youtube.com/watch?v=9n9hcdohtpY", //28/07/2025
+      "https://www.youtube.com/watch?v=xAWDqdpOlu8", //29/07/2025
+      "https://www.youtube.com/watch?v=sjN-NGsRg9g", //30/07/2025  //50
+      "https://www.youtube.com/watch?v=wXfMhM6tOqk", //31/07/2025
+      "https://www.youtube.com/watch?v=38fwtC6Nf0Y", //01/08/2025
+      "https://www.youtube.com/watch?v=IdJ1UgykjyU", //02/08/2025
+      "https://www.youtube.com/watch?v=MQNRKX8GwPo", //03/08/2025
+      "https://www.youtube.com/watch?v=CWQJIg4SAfc", //04/08/2025
+      "https://www.youtube.com/watch?v=M8Wt3dhF4fU", //05/08/2025
+      "https://www.youtube.com/watch?v=UrIiLvg58SY", //06/08/2025
+      "https://www.youtube.com/watch?v=lPXWt2ESxVY", //07/08/2025
+      "https://www.youtube.com/watch?v=gtlUVlnpwq8", //08/08/2025
+      "https://www.youtube.com/watch?v=E_H35DDx3es", //09/08/2025
+      "https://www.youtube.com/watch?v=QeVGtklLMRE", //10/08/2025
+      "https://www.youtube.com/watch?v=3A8K390-kAA", //11/08/2025
+      "https://www.youtube.com/watch?v=Utbkur5WzJQ", //12/08/2025
+      "https://www.youtube.com/watch?v=NjCbs528lSc", //13/08/2025
+      "https://www.youtube.com/watch?v=9Jz58s3sEyc", //14/08/2025
+      "https://www.youtube.com/watch?v=KuDD-O_VZfQ", //15/08/2025
+      "https://www.youtube.com/watch?v=pxZKDKahvvM", //16/08/2025
+      "https://www.youtube.com/watch?v=P2KnD7sfpoA", //17/08/2025
+      "https://www.youtube.com/watch?v=raNGeq3_DtM", //18/08/2025
+      "https://www.youtube.com/watch?v=-TucE0bSi_Y", //19/08/2025
+      "https://www.youtube.com/watch?v=qCLPlqeWWqI", //20/08/2025
+      "https://www.youtube.com/watch?v=0wTxqHbJOzg", //21/08/2025
+      "https://www.youtube.com/watch?v=sZ5SI6n1Ljs", //22/08/2025
+      "https://www.youtube.com/watch?v=pXRviuL6vMY", //23/08/2025
+      "https://www.youtube.com/watch?v=L52TwKwW_C8", //24/08/2025  //75
+      "https://www.youtube.com/watch?v=HQjqnRADO3E", //25/08/2025
+      "https://www.youtube.com/watch?v=09839DpTctU", //26/08/2025
+      "https://www.youtube.com/watch?v=XpqqjU7u5Yc", //27/08/2025
+      "https://www.youtube.com/watch?v=Qt2mbGP6vFI", //28/08/2025
+      "https://www.youtube.com/watch?v=NlwIDxCjL-8", //29/08/2025
+      "https://www.youtube.com/watch?v=50VWOBi0VFs", //30/08/2025
+      "https://www.youtube.com/watch?v=kPa7bsKwL-c", //31/08/2025
+      "https://www.youtube.com/watch?v=6hzrDeceEKc", //01/09/2025
+      "https://www.youtube.com/watch?v=nYc09Xqy3hE", //02/09/2025
+      "https://www.youtube.com/watch?v=Ju8Hr50Ckwk", //03/09/2025
+      "https://www.youtube.com/watch?v=JWdZEumNRmI", //04/09/2025
+      "https://www.youtube.com/watch?v=X3ruKFDmChY", //05/09/2025
+      "https://www.youtube.com/watch?v=ycBhSXqkg-8", //06/09/2025
+      "https://www.youtube.com/watch?v=e9TgbyCjuWY", //07/09/2025
+      "https://www.youtube.com/watch?v=HaA3YZ6QdJU", //08/09/2025
+      "https://www.youtube.com/watch?v=k9ZwohK9c88", //09/09/2025
+      "https://www.youtube.com/watch?v=KVybZvrIbOM", //10/09/2025
+      "https://www.youtube.com/watch?v=DDjlaN-X8-0", //11/09/2025
+      "https://www.youtube.com/watch?v=rO2z8DE_RYw", //12/09/2025
+      "https://www.youtube.com/watch?v=ozv8ugNm0P0", //13/09/2025
+      "https://www.youtube.com/watch?v=flhzBPLSieE", //14/09/2025
+      "https://www.youtube.com/watch?v=-xKM3mGt2pE", //15/09/2025
+      "https://www.youtube.com/watch?v=OMOGaugKpzs", //16/09/2025
+      "https://www.youtube.com/watch?v=nd2-q-WL07w", //17/09/2025
+      "https://www.youtube.com/watch?v=gs0FnYN12ZE" ,//18/09/2025       //100
+      "https://www.youtube.com/watch?v=VGfDg7wju6M", //19/09/2025
+      "https://www.youtube.com/watch?v=wgr6s_e3gek", //20/09/2025
+      "https://www.youtube.com/watch?v=Z0AXjUy1_gY", //21/09/2025
+      "https://www.youtube.com/watch?v=u5CVsCnxyXg", //22/09/2025
+      "https://www.youtube.com/watch?v=JF8BRvqGCNs", //23/09/2025
+      "https://www.youtube.com/watch?v=lcOxhH8N3Bo", //24/09/2025
+      "https://www.youtube.com/watch?v=ulMPAifCJYU", //25/09/2025
+      "https://www.youtube.com/watch?v=u5CVsCnxyXg", //26/09/2025
+      "https://www.youtube.com/watch?v=iywaBOMvYLI", //27/09/2025
+      "https://www.youtube.com/watch?v=EDbwAk79ZxU", //28/09/2025
+      "https://www.youtube.com/watch?v=4Wy8BCKqRnI", //29/09/2025
+      "https://www.youtube.com/watch?v=l2q_-xN2N54", //30/09/2025
+      "https://www.youtube.com/watch?v=L-6PCSZij3I", //01/10/2025
+      "https://www.youtube.com/watch?v=tsmPCi7NKrg", //02/10/2025
+      "https://www.youtube.com/watch?v=toM2ENpmzMA", //03/10/2025
+      "https://www.youtube.com/watch?v=XiQcobvSQzE", //04/10/2025
+      "https://www.youtube.com/watch?v=ynVSVIn8OX0", //05/10/2025
+      "https://www.youtube.com/watch?v=c-UejQQKue0", //06/10/2025
+      "https://www.youtube.com/watch?v=-mnH9-SX2Tg", //07/10/2025
+      "https://www.youtube.com/watch?v=S_E2EHVxNAE" ,//08/10/2025  //120
+      "https://www.youtube.com/watch?v=oX7JZ62wHUg", //09/10/2025
+      "https://www.youtube.com/watch?v=VdQY7BusJNU", //10/10/2025
+      "https://www.youtube.com/watch?v=FvOpPeKSf_4", //11/10/2025
+      "https://www.youtube.com/watch?v=2K7jMLS-7iw", //12/10/2025
+      "https://www.youtube.com/watch?v=gb28fUq26J0", //13/10/2025
+      "https://www.youtube.com/watch?v=k2C5TjS2sh4", //14/10/2025
+      "https://www.youtube.com/watch?v=eBG7P-K-r1Y", //15/10/2025
+      "https://www.youtube.com/watch?v=d-diB65scQU", //16/10/2025
+      "https://www.youtube.com/watch?v=0Gl2QnHNpkA", //17/10/2025
+      "https://www.youtube.com/watch?v=h0ffIJ7ZO4U", //18/10/2025
+      "https://www.youtube.com/watch?v=mrZRURcb1cM", //19/10/2025
+      "https://www.youtube.com/watch?v=4l8AzEhoZGA", //20/10/2025
+      "https://www.youtube.com/watch?v=3XdvlE4w3bk", //21/10/2025
+      "https://www.youtube.com/watch?v=tAGnKpE4NCI", //22/10/2025
+      "https://www.youtube.com/watch?v=OJ62RzJkYUo", //23/10/2025
+      "https://www.youtube.com/watch?v=btPJPFnesV4", //24/10/2025
+      "https://www.youtube.com/watch?v=w46bWxS9IjY", //25/10/2025
+      "https://www.youtube.com/watch?v=8u6KVI7eLEo", //26/10/2025
+      "https://www.youtube.com/watch?v=U2WDdccgaDY", //27/10/2025
+      "https://www.youtube.com/watch?v=PadKCVBIN94" ,//28/10/2025  //140
+      "https://www.youtube.com/watch?v=JNIK18PKrqY", //29/10/2025
+      "https://www.youtube.com/watch?v=CjRas1yOWvo", //30/10/2025
+      "https://www.youtube.com/watch?v=s6TtwR2Dbjg", //31/10/2025
+      "https://www.youtube.com/watch?v=tpL6iN2E9sA", //01/11/2025
+      "https://www.youtube.com/watch?v=n4RjJKxsamQ", //02/11/2025
+      "https://www.youtube.com/watch?v=qMjXfiG-obQ", //03/11/2025
+      "https://www.youtube.com/watch?v=-ePsKQjRyFA", //04/11/2025
+      "https://www.youtube.com/watch?v=_leQ3m4xppc", //05/11/2025
+      "https://www.youtube.com/watch?v=izGwDsrQ1eQ", //06/11/2025
+      "https://www.youtube.com/watch?v=J5F9bPTm1xM", //07/11/2025
+      "https://www.youtube.com/watch?v=8SbUC-UaAxE", //08/11/2025
+      "https://www.youtube.com/watch?v=E68ZpQTUsMs", //09/11/2025
+      "https://www.youtube.com/watch?v=gIOulDF9Bjk", //10/11/2025
+      "https://www.youtube.com/watch?v=djV11Xbc914", //11/11/2025
+      "https://www.youtube.com/watch?v=BcSqa59O_gU", //12/11/2025
+      "https://www.youtube.com/watch?v=UhQyZFrYNzw", //13/11/2025
+      "https://www.youtube.com/watch?v=Muo6NTg7D38", //14/11/2025
+      "https://www.youtube.com/watch?v=-BjZmE2gtdo", //15/11/2025
+      "https://www.youtube.com/watch?v=dDLiVwpv89s", //16/11/2025
+      "https://www.youtube.com/watch?v=peR6hgJzC7I" ,//17/11/2025  //160
+      "https://www.youtube.com/watch?v=HLWE5l7i47E", //18/11/2025
+      "https://www.youtube.com/watch?v=R2k8HC0A-Zg", //19/11/2025
+      "https://www.youtube.com/watch?v=cjVQ36NhbMk", //20/11/2025
+      "https://www.youtube.com/watch?v=WLxw8SGA_ew", //21/11/2025
+      "https://www.youtube.com/watch?v=yWS6ZGGrQYk", //22/11/2025
+      "https://www.youtube.com/watch?v=3iV_1ESMHaI", //23/11/2025
+      "https://www.youtube.com/watch?v=FkPMAJeUEus", //24/11/2025
+      "https://www.youtube.com/watch?v=1V_xRb0x9aw", //25/11/2025
+      "https://www.youtube.com/watch?v=wozIaRSqY4g", //26/11/2025
+      "https://www.youtube.com/watch?v=o_1aF54DO60", //27/11/2025
+      "https://www.youtube.com/watch?v=R2k8HC0A-Zg", //28/11/2025
+      "https://www.youtube.com/watch?v=f4Mc-NYPHaQ", //29/11/2025
+      "https://www.youtube.com/watch?v=L_-pEaUFoVM", //30/11/2025
+      "https://www.youtube.com/watch?v=7qFfFVSerQo", //01/12/2025
+      "https://www.youtube.com/watch?v=Dcon1Xj-G5c", //02/12/2025
+      "https://www.youtube.com/watch?v=j4y-RzVGrHg", //03/12/2025
+      "https://www.youtube.com/watch?v=Oextk-If8HQ", //04/12/2025
+      "https://www.youtube.com/watch?v=epYKVcHrVr0", //05/12/2025
+      "https://www.youtube.com/watch?v=vpZtV9bD7gI", //06/12/2025
+      "https://www.youtube.com/watch?v=ho-iGFctXe8" ,//07/12/2025  //180
+      "https://www.youtube.com/watch?v=dCqoPaITHPY", //08/12/2025
+      "https://www.youtube.com/watch?v=O1-4u9W-bns", //09/12/2025
+      "https://www.youtube.com/watch?v=0qil6CESL_A", //10/12/2025
+      "https://www.youtube.com/watch?v=jhat-xUQ6dw", //11/12/2025
+      "https://www.youtube.com/watch?v=soDZBW-1P04", //12/12/2025
+      "https://www.youtube.com/watch?v=YyM5FH_KYVQ", //13/12/2025
+      "https://www.youtube.com/watch?v=ezoUemHzHno", //14/12/2025
+      "https://www.youtube.com/watch?v=dCqoPaITHPY", //15/12/2025
+      "https://www.youtube.com/watch?v=1Cw1ng75KP0", //16/12/2025
+      "https://www.youtube.com/watch?v=vOL-AvxD9w4", //17/12/2025
+      "https://www.youtube.com/watch?v=2lo32vfQQP8", //18/12/2025
+      "https://www.youtube.com/watch?v=ivuMoSFe31Y", //19/12/2025
+      "https://www.youtube.com/watch?v=3JWTaaS7LdU", //20/12/2025
+      "https://www.youtube.com/watch?v=WIq9PEWa7tQ", //21/12/2025
+      "https://www.youtube.com/watch?v=hPC2Fp7IT7o", //22/12/2025
+      "https://www.youtube.com/watch?v=hPC2Fp7IT7o", //23/12/2025
+      "https://www.youtube.com/watch?v=9BMwcO6_hyA", //24/12/2025
+      "https://www.youtube.com/watch?v=wQSexM2jYds", //25/12/2025
+      "https://www.youtube.com/watch?v=XTb9GNIxpMk", //26/12/2025
+      "https://www.youtube.com/watch?v=d_RKO5ozLVo" ,//27/12/2025  //200
+      "https://www.youtube.com/watch?v=sUJkCXE4sAA", //28/12/2025
+      "https://www.youtube.com/watch?v=-JBl3frx6fc", //29/12/2025
+      "https://www.youtube.com/watch?v=yjxriFArvMk", //30/12/2025
+      "https://www.youtube.com/watch?v=zzHouyi6t4g", //31/12/2025
+      "https://www.youtube.com/watch?v=LXEKuttVRIo", //01/01/2026
+      "https://www.youtube.com/watch?v=xPW_ZHqvMsc", //02/01/2026
+      "https://www.youtube.com/watch?v=jhat-xUQ6dw", //03/01/2026
+      "https://www.youtube.com/watch?v=LjhCEhWiKXk", //04/01/2026
+      "https://www.youtube.com/watch?v=x7UHl9Kf2CI", //05/01/2026
+      "https://www.youtube.com/watch?v=ZBDmUqp0JTU", //06/01/2026
+      "https://www.youtube.com/watch?v=9ZpxaeICYyg", //07/01/2026
+      "https://www.youtube.com/watch?v=lsBsOYQqJno", //08/01/2026
+      "https://www.youtube.com/watch?v=p3bbPEGOs2o", //09/01/2026
+      "https://www.youtube.com/watch?v=OmLNs6zQIHo", //10/01/2026
+      "https://www.youtube.com/watch?v=GOJk0HW_hJw", //11/01/2026
+      "https://www.youtube.com/watch?v=0put0_a--Ng", //12/01/2026
+      "https://www.youtube.com/watch?v=QJJYpsA5tv8", //13/01/2026
+      "https://www.youtube.com/watch?v=2IFF9yu5i3k", //14/01/2026
+      "https://www.youtube.com/watch?v=Q8Tiz6INF7I", //15/01/2026
+      "https://www.youtube.com/watch?v=6tnc-rBZJL4" ,//16/01/2026  //220
+      "https://www.youtube.com/watch?v=D3OLE3EknVI", //17/01/2026
+      "https://www.youtube.com/watch?v=-TlU7IhW0-I", //18/01/2026
+      "https://www.youtube.com/watch?v=irK0Su5SE2Y", //19/01/2026
+      "https://www.youtube.com/watch?v=FOjdXSrtUxA", //20/01/2026
+      "https://www.youtube.com/watch?v=SPUJIbXN0WY", //21/01/2026
+      "https://www.youtube.com/watch?v=tAGnKpE4NCI", //22/01/2026
+      "https://www.youtube.com/watch?v=QNJL6nfu__Q", //23/01/2026
+      "https://www.youtube.com/watch?v=ebB1fvJzT24", //24/01/2026
+      "https://www.youtube.com/watch?v=I_izvAbhExY", //25/01/2026
+      "https://www.youtube.com/watch?v=ABrVDrc_5QI", //26/01/2026
+      "https://www.youtube.com/watch?v=DTFbGcnl0po", //27/01/2026
+      "https://www.youtube.com/watch?v=oofSnsGkops", //28/01/2026
+      "https://www.youtube.com/watch?v=V-qcywY7LRs", //29/01/2026
+      "https://www.youtube.com/watch?v=V1bFr2SWP1I", //30/01/2026
+      "https://www.youtube.com/watch?v=hBkO1c9VSP4", //31/01/2026
+      "https://www.youtube.com/watch?v=BxuY9FET9Y4", //01/02/2026
+      "https://www.youtube.com/watch?v=NlgmH5q9uNk", //02/02/2026
+      "https://www.youtube.com/watch?v=aSaJf_Pe9Rw", //03/02/2026
+      "https://www.youtube.com/watch?v=pB-5XG-DbAA", //04/02/2026
+      "https://www.youtube.com/watch?v=9_uXc5QNYiU" ,//05/02/2026  //240
+      "https://www.youtube.com/watch?v=3mMVcCMO_Ng", //06/02/2026
+      "https://www.youtube.com/watch?v=yvGfVdx-gNo", //07/02/2026
+      "https://www.youtube.com/watch?v=VDS0U41EN_s", //08/02/2026
+      "https://www.youtube.com/watch?v=sBYFBmPVzWM", //09/02/2026
+      "https://www.youtube.com/watch?v=VOLzJfcTqoc", //10/02/2026
+      "https://www.youtube.com/watch?v=an4ySOlsUMY", //11/02/2026
+      "https://www.youtube.com/watch?v=4-43lLKaqBQ", //12/02/2026
+      "https://www.youtube.com/watch?v=z399k-EC7_8", //13/02/2026
+      "https://www.youtube.com/watch?v=JR8Cl7hRn8M", //14/02/2026
+      "https://www.youtube.com/watch?v=fB0Qml24TYc", //15/02/2026
+      "https://www.youtube.com/watch?v=-CxKA1uETxE", //16/02/2026
+      "https://www.youtube.com/watch?v=SB69blyX46c", //17/02/2026
+      "https://www.youtube.com/watch?v=IuUDRU9-HRk", //18/02/2026
+      "https://www.youtube.com/watch?v=2Vv-BfVoq4g", //19/02/2026
+      "https://www.youtube.com/watch?v=xLPGtQoRUbk", //20/02/2026
+      "https://www.youtube.com/watch?v=GmG4X9PGOXs", //21/02/2026
+      "https://www.youtube.com/watch?v=HjmBLCbTgDo", //22/02/2026
+      "https://www.youtube.com/watch?v=0habxsuXW4g", //23/02/2026
+      "https://www.youtube.com/watch?v=aDaOgu2CQtI", //24/02/2026
+      "https://www.youtube.com/watch?v=sJRPPUr1yic" ,//25/02/2026  //260
+      "https://www.youtube.com/watch?v=fuzenfYfu9E", //26/02/2026
+      "https://www.youtube.com/watch?v=87KpyQSBCAk", //27/02/2026
+      "https://www.youtube.com/watch?v=8de2W3rtZsA", //28/02/2026
+      "https://www.youtube.com/watch?v=S9bCLPwzSC0", //01/03/2026
+      "https://www.youtube.com/watch?v=-2yfV53d3ks", //02/03/2026
+      "https://www.youtube.com/watch?v=YKyBGuFHEXY", //03/03/2026
+      "https://www.youtube.com/watch?v=LTseTg48568", //04/03/2026
+      "https://www.youtube.com/watch?v=DCCJCILiX3o", //05/03/2026
+      "https://www.youtube.com/watch?v=IrTTVHZLsvM", //06/03/2026
+      "https://www.youtube.com/watch?v=gjit4OgRZFM", //07/03/2026
+      "https://www.youtube.com/watch?v=IXyJu9smWw8", //08/03/2026
+      "https://www.youtube.com/watch?v=IKOv68AOmV4", //09/03/2026
+      "https://www.youtube.com/watch?v=DP3j6hgS4VY", //10/03/2026
+      "https://www.youtube.com/watch?v=Mu3uuD7jRGo", //11/03/2026
+      "https://www.youtube.com/watch?v=2f9zhizxB9g", //12/03/2026
+      "https://www.youtube.com/watch?v=xeyqateYZ3s", //13/03/2026
+      "https://www.youtube.com/watch?v=f9X1C7pTu-M", //14/03/2026
+      "https://www.youtube.com/watch?v=tLpnEp1-rT0", //15/03/2026
+      "https://www.youtube.com/watch?v=LXIWRan3XGY", //16/03/2026
+      "https://www.youtube.com/watch?v=iXi6IHFHeIA" ,//17/03/2026  //280
+      "https://www.youtube.com/watch?v=KNZH-emehxA", //18/03/2026
+      "https://www.youtube.com/watch?v=_ANWcAftXi0", //19/03/2026
+      "https://www.youtube.com/watch?v=ELKbtFljucQ", //20/03/2026
+      "https://www.youtube.com/watch?v=ul5hqQk-46I", //21/03/2026
+      "https://www.youtube.com/watch?v=iOYvnbTOhQs", //22/03/2026
+      "https://www.youtube.com/watch?v=3EL20VKlvbs", //23/03/2026
+      "https://www.youtube.com/watch?v=eAfyFTzZDMM", //24/03/2026
+      "https://www.youtube.com/watch?v=h5JR8Tip4Uo", //25/03/2026
+      "https://www.youtube.com/watch?v=8dVwwKi5gsM", //26/03/2026
+      "https://www.youtube.com/watch?v=rtOvBOTyX00", //27/03/2026
+      "https://www.youtube.com/watch?v=mtf7hC17IBM", //28/03/2026
+      "https://www.youtube.com/watch?v=fwkANwQSELU", //29/03/2026
+      "https://www.youtube.com/watch?v=Lu--_RnQRsc", //30/03/2026
+      "https://www.youtube.com/watch?v=4Oxrpd84GTo", //31/03/2026
+      "https://www.youtube.com/watch?v=2cZ_EFAmj08", //01/04/2026
+      "https://www.youtube.com/watch?v=RCmjd4b2OAw", //02/04/2026
+      "https://www.youtube.com/watch?v=b9tAs669m20", //03/04/2026
+      "https://www.youtube.com/watch?v=v0jUYc39Dzk", //04/04/2026
+      "https://www.youtube.com/watch?v=YYspLceblH0", //05/04/2026
+      "https://www.youtube.com/watch?v=OWhiCkEY-Yk" ,//06/04/2026  //300
+      "https://www.youtube.com/watch?v=UJVj7sBmcwY", //07/04/2026
+      "https://www.youtube.com/watch?v=FQLGhPHzxjc", //08/04/2026
+      "https://www.youtube.com/watch?v=cmc_K2fuJtk", //09/04/2026
+      "https://www.youtube.com/watch?v=Yw74sDWPH7U", //10/04/2026
+      "https://www.youtube.com/watch?v=1pA0RGTJ6Ac", //11/04/2026
+      "https://www.youtube.com/watch?v=1JNmz17gnMw", //12/04/2026
+      "https://www.youtube.com/watch?v=MDhiQfekdxo", //13/04/2026
+      "https://www.youtube.com/watch?v=eBKfy0FwUC8", //14/04/2026
+      "https://www.youtube.com/watch?v=4YYNfkJwq6g", //15/04/2026
+      "https://www.youtube.com/watch?v=f-H9bbi0Vyw", //16/04/2026
+      "https://www.youtube.com/watch?v=tO4dxvguQDk", //17/04/2026
+      "https://www.youtube.com/watch?v=35WmdslsNg8", //18/04/2026
+      "https://www.youtube.com/watch?v=TjPhzgxe3L0", //19/04/2026
+      "https://www.youtube.com/watch?v=9JVt-JdM4e4", //20/04/2026
+      "https://www.youtube.com/watch?v=FC5SG27kcC4", //21/04/2026
+      "https://www.youtube.com/watch?v=TGgcC5xg9YI", //22/04/2026
+      "https://www.youtube.com/watch?v=GIzDsGyxsQM", //23/04/2026
+      "https://www.youtube.com/watch?v=y9pBwziQvJk", //24/04/2026
+      "https://www.youtube.com/watch?v=UYwF-jdcVjY", //25/04/2026
+      "https://www.youtube.com/watch?v=OjHX7jf-znA" ,//26/04/2026  //320
+      "https://www.youtube.com/watch?v=-uij9eiwwG0", //27/04/2026
+      "https://www.youtube.com/watch?v=450p7goxZqg", //28/04/2026
+      "https://www.youtube.com/watch?v=dBFW8OvciIU", //29/04/2026
+      "https://www.youtube.com/watch?v=1MYEu4X9gNE", //30/04/2026
+      "https://www.youtube.com/watch?v=WFsAon_TWPQ", //01/05/2026
+      "https://www.youtube.com/watch?v=nOubjLM9Cbc", //02/05/2026
+      "https://www.youtube.com/watch?v=xjE5D9cHiOk", //03/05/2026
+      "https://www.youtube.com/watch?v=bWlUQRrCQKw", //04/05/2026
+      "https://www.youtube.com/watch?v=uJ_1HMAGb4k", //05/05/2026
+      "https://www.youtube.com/watch?v=VF-r5TtlT9w", //06/05/2026
+      "https://www.youtube.com/watch?v=cENeHZ9dXHU", //07/05/2026
+      "https://www.youtube.com/watch?v=HZZSYDhx0FI", //08/05/2026
+      "https://www.youtube.com/watch?v=AJtDXIazrMo", //09/05/2026
+      "https://www.youtube.com/watch?v=RBumgq5yVrA", //10/05/2026
+      "https://www.youtube.com/watch?v=yJbzNdC4YOA", //11/05/2026
+      "https://www.youtube.com/watch?v=8inJtTG_DuU", //12/05/2026
+      "https://www.youtube.com/watch?v=bnVUHWCynig", //13/05/2026
+      "https://www.youtube.com/watch?v=RcDjZWQaONg", //14/05/2026
+      "https://www.youtube.com/watch?v=yKNxeF4KMsY", //15/05/2026
+      "https://www.youtube.com/watch?v=DKL4X0PZz7M" ,//16/05/2026  //340
+      "https://www.youtube.com/watch?v=T8YCSJpF4g4", //17/05/2026
+      "https://www.youtube.com/watch?v=yFTvbcNhEgc", //18/05/2026
+      "https://www.youtube.com/watch?v=lXby9yWKCXg", //19/05/2026
+      "https://www.youtube.com/watch?v=ghb6eDopW8I", //20/05/2026
+      "https://www.youtube.com/watch?v=KQT32vW61eI", //21/05/2026
+      "https://www.youtube.com/watch?v=aXnfhnCoOyo", //22/05/2026
+      "https://www.youtube.com/watch?v=_O8fbvFudmA", //23/05/2026
+      "https://www.youtube.com/watch?v=ssdgFoHLwnk", //24/05/2026
+      "https://www.youtube.com/watch?v=zvCBSSwgtg4", //25/05/2026
+      "https://www.youtube.com/watch?v=EzgGTTtR0kc", //26/05/2026
+      "https://www.youtube.com/watch?v=rGKfrgqWcv0", //27/05/2026
+      "https://www.youtube.com/watch?v=uuZE_IRwLNI", //28/05/2026
+      "https://www.youtube.com/watch?v=DrQRS40OKNE", //29/05/2026
+      "https://www.youtube.com/watch?v=CyGYI-lrGXk", //30/05/2026
+      "https://www.youtube.com/watch?v=NAEppFUWLfc", //31/05/2026
+      "https://www.youtube.com/watch?v=MMFj8uDubsE", //01/06/2026
+      "https://www.youtube.com/watch?v=7_weSk0BonM", //02/06/2026
+      "https://www.youtube.com/watch?v=eCq3G6LGhe8", //03/06/2026
+      "https://www.youtube.com/watch?v=MzCLLHscMOw", //04/06/2026
+      "https://www.youtube.com/watch?v=Ra-Om7UMSJc" ,//05/06/2026  //360
+      "https://www.youtube.com/watch?v=tH2w6Oxx0kQ", //06/06/2026
+      "https://www.youtube.com/watch?v=iOs9Osz3UFQ", //07/06/2026
+      "https://www.youtube.com/watch?v=2nGKqH26xlg", //08/06/2026
+      "https://www.youtube.com/watch?v=F2RnxZnubCM", //09/06/2026
+      "https://www.youtube.com/watch?v=gVVhHjyC04k", //10/06/2026
+      "https://www.youtube.com/watch?v=1cS_i-zDdxg", //11/06/2026
+      "https://www.youtube.com/watch?v=qnkuBUAwfe0"  //12/06/2026
+
+     // Adicione até 368 links aqui
+    ];
+
+    const dataInicio = new Date("2025-06-11");
+
+    function verVideo() {
+      const dataInput = document.getElementById("dataInput").value;
+      if (!dataInput) {
+        alert("Por favor, selecione uma data.");
+        return;
+      }
+
+      const dataSelecionada = new Date(dataInput + 'T00:00:00'); // corrige fuso horário mobile
+      const dataFim = new Date("2026-06-12");
+
+      if (dataSelecionada < dataInicio || dataSelecionada > dataFim) {
+        alert("Data fora do intervalo permitido.");
+        return;
+      }
+
+      const diffDias = Math.floor((dataSelecionada - dataInicio) / (1000 * 60 * 60 * 24));
+      const urlVideo = videos[diffDias] || "https://www.youtube.com";
+
+      // Abrir em nova aba (melhor suporte mobile)
+      window.open(urlVideo, '_blank');
+    }
+  </script>
+</body>
+</html>
+
