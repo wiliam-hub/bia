@@ -2,52 +2,70 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vídeo do Dia</title>
- <style>
-  body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background: url('fundo.jpeg') no-repeat center center fixed;
-    background-size: cover;
-    color: #fff;
-    text-align: center;
-  }
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Máquina do Tempo Musical</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background: url('fundo.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+    }
 
-  /* Adicione fundo semi-transparente no conteúdo para facilitar a leitura */
-  body > * {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 10px;
-    border-radius: 10px;
-  }
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 700px;
+      margin: auto;
+    }
 
-  input, button {
-    padding: 10px;
-    margin-top: 15px;
-    font-size: 16px;
-  }
+    input, button {
+      padding: 10px;
+      margin-top: 15px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+    }
 
-  #mensagem {
-    margin-top: 20px;
-    font-weight: bold;
-    font-size: 18px;
-  }
-</style>
+    button {
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ff85c1;
+    }
+
+    #mensagem {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Escolha uma data</h1>
-  <input type="date" id="dataInput" min="2025-06-11" max="2026-06-12" />
-  <br />
-  <button onclick="verVideo()">Ver vídeo</button>
 
-   <p>
-    Criei essa máquina do tempo musical para que quando você não souber qual música ouvir, coloque aqui uma data entre <strong>11/06/2025</strong> e <strong>12/06/2026</strong> e ouça a música que escolhi nesse dia para você. <br><br>
-    Existem algumas datas especiais como o dia do seu aniversário, do meu aniversário, o dia do show do System of a Down, natal, ano novo hahaha. <br><br>
-    Dessa forma, vou estar sempre pertinho de você nas datas comemorativas. Espero que no próximo dia dos namorados (final da playlist) eu possa estar com você, como seu namorado! Se não, aproveita do mesmo jeito haha! <strong>Te amo, Bia.</strong>
-  </p>
+  <div class="container">
+    <h2>Máquina do Tempo Musical 🎶</h2>
+
+    <p>
+      Criei essa máquina do tempo musical para que quando você não souber qual música ouvir, coloque aqui uma data entre <strong>11/06/2025</strong> e <strong>12/06/2026</strong> e ouça a música que escolhi nesse dia para você. <br><br>
+      Existem algumas datas especiais como o dia do seu aniversário, do meu aniversário, o dia do show do System of a Down, natal, ano novo hahaha. <br><br>
+      Dessa forma, vou estar sempre pertinho de você nas datas comemorativas. Espero que no próximo dia dos namorados (final da playlist) eu possa estar com você! Se não, aproveita do mesmo jeito haha! <strong>Te amo, Bia.</strong>
+    </p>
+
+    <input type="date" id="dataInput"><br>
+    <button onclick="verVideo()">Ver vídeo</button>
+
+    <div id="mensagem"></div>
+  </div>
 
   <script>
-    // Lista de 368 vídeos (exemplo com poucos links)
     const videos = [
       "https://www.youtube.com/watch?v=KtlgYxa6BMU", //11/06/2025
       "https://www.youtube.com/watch?v=jGUASAxXwg4", //12/06/2025
@@ -417,20 +435,22 @@
       "https://www.youtube.com/watch?v=1cS_i-zDdxg", //11/06/2026
       "https://www.youtube.com/watch?v=qnkuBUAwfe0"  //12/06/2026
 
-     // Adicione até 368 links aqui
     ];
 
     const dataInicio = new Date("2025-06-11");
+    const dataFim = new Date("2026-06-12");
 
     function verVideo() {
       const dataInput = document.getElementById("dataInput").value;
+      const mensagem = document.getElementById("mensagem");
+
       if (!dataInput) {
-        alert("Por favor, selecione uma data.");
+        mensagem.textContent = "Por favor, selecione uma data.";
         return;
       }
-      
+
       const dataSelecionada = new Date(dataInput);
-      
+
       if (dataSelecionada < dataInicio) {
         mensagem.textContent = "Essa parte a gente já viveu.";
         return;
@@ -444,10 +464,9 @@
       const diffDias = Math.floor((dataSelecionada - dataInicio) / (1000 * 60 * 60 * 24));
       const urlVideo = videos[diffDias] || "https://www.youtube.com";
 
-      // Abrir em nova aba (melhor suporte mobile)
-      window.open(urlVideo, '_blank');
+      window.location.href = urlVideo;
     }
   </script>
+
 </body>
 </html>
-
